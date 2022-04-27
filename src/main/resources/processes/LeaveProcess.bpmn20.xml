@@ -52,20 +52,20 @@
                 <omgdi:waypoint x="696.5002839785394" y="162.0891701657418"/>
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge bpmnElement="rejectFlow" id="BPMNEdge_rejectFlow">
-                <omgdi:waypoint x="631.866093577786" y="142.36609357778607" />
-                <omgdi:waypoint x="631.5931090276993" y="101.32067323657485" />
+                <omgdi:waypoint x="631.866093577786" y="142.36609357778607"/>
+                <omgdi:waypoint x="631.5931090276993" y="101.32067323657485"/>
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge bpmnElement="modeFlow" id="BPMNEdge_modeFlow">
-                <omgdi:waypoint x="404.60807973558974" y="162.0" />
-                <omgdi:waypoint x="465.0" y="162.0" />
+                <omgdi:waypoint x="404.60807973558974" y="162.0"/>
+                <omgdi:waypoint x="465.0" y="162.0"/>
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge bpmnElement="flowStart" id="BPMNEdge_flowStart">
-                <omgdi:waypoint x="243.2256558149128" y="162.0" />
-                <omgdi:waypoint x="304.60807973558974" y="162.0" />
+                <omgdi:waypoint x="243.2256558149128" y="162.0"/>
+                <omgdi:waypoint x="304.60807973558974" y="162.0"/>
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge bpmnElement="jugdeFlow" id="BPMNEdge_jugdeFlow">
-                <omgdi:waypoint x="565.0" y="162.21367521367523" />
-                <omgdi:waypoint x="611.9141630901288" y="162.41416309012877" />
+                <omgdi:waypoint x="565.0" y="162.21367521367523"/>
+                <omgdi:waypoint x="611.9141630901288" y="162.41416309012877"/>
             </bpmndi:BPMNEdge>
         </bpmndi:BPMNPlane>
     </bpmndi:BPMNDiagram>

@@ -1,5 +1,5 @@
 server:
-  port: 8089
+  port: 4000
 
 spring:
   datasource:
@@ -11,6 +11,14 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+flowable:
+  idm:
+    app:
+      admin:
+        password: test
+        user-id: admin
+        first-name: admin
+        last-name: admin
 #logging:
 #  level:
 #     com.ly.dao: debug

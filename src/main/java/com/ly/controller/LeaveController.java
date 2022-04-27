@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 /*
 @GetMapping("hello")
 public String hello() {
@@ -46,7 +47,7 @@ public class LeaveController {
     public String startLeaveProcess(String staffId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("leaveTask", staffId);
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Leave", map);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("lyModelKey", map);
         StringBuilder sb = new StringBuilder();
         sb.append("创建请假流程 processId：" + processInstance.getId());
         List<Task> tasks = taskService.createTaskQuery().taskAssignee(staffId).orderByTaskCreateTime().desc().list();
@@ -100,17 +101,20 @@ public class LeaveController {
     public void createProcessDiagramPic(HttpServletResponse httpServletResponse, String processId) throws Exception {
 
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
+
+        //流程走完的不显示图
         if (pi == null) {
             return;
         }
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
-
+        //使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
         String InstanceId = task.getProcessInstanceId();
         List<Execution> executions = runtimeService
                 .createExecutionQuery()
                 .processInstanceId(InstanceId)
                 .list();
 
+        //得到正在执行的Activity的Id
         List<String> activityIds = new ArrayList<>();
         List<String> flows = new ArrayList<>();
         for (Execution exe : executions) {
@@ -118,20 +122,37 @@ public class LeaveController {
             activityIds.addAll(ids);
         }
 
-        /**
-         * 生成流程图
-         */
+        //获取流程图
         BpmnModel bpmnModel = repositoryService.getBpmnModel(pi.getProcessDefinitionId());
         ProcessEngineConfiguration engconf = processEngine.getProcessEngineConfiguration();
         ProcessDiagramGenerator diagramGenerator = engconf.getProcessDiagramGenerator();
-        InputStream in = diagramGenerator.generateDiagram(bpmnModel,
-                "png", activityIds, flows, engconf.getActivityFontName(),
-                engconf.getLabelFontName(), engconf.getAnnotationFontName(),
-                engconf.getClassLoader(), 1.0,true);
+        InputStream in = diagramGenerator.generateDiagram(bpmnModel, "png",
+                activityIds, flows, "宋体","宋体","宋体",null,2.0,true);
+        /*FileOutputStream out1=new FileOutputStream(new File("F:\\java_test\\git\\java_test\\sb_flowable\\a.png"));
+        byte[] buf1=new byte[1024];
+        int length=0;
+        try {
+            while ((length = in.read(buf1)) != -1) {
+                out1.write(buf1, 0, length);
+            }
+        }finally {
+            if (in != null) {
+                in.close();
+            }
+            if (out1 != null) {
+                out1.close();
+            }
+        }
+        out1.close();
+        in=new FileInputStream(new File("F:\\java_test\\git\\java_test\\sb_flowable\\a.png"));*/
+
         OutputStream out = null;
         byte[] buf = new byte[1024];
         int legth = 0;
         try {
+
+            httpServletResponse.reset();
+            httpServletResponse.setContentType("image/png");
             out = httpServletResponse.getOutputStream();
             while ((legth = in.read(buf)) != -1) {
                 out.write(buf, 0, legth);
